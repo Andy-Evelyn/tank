@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>坦克大战小游戏</title>
+</head>
+<body onkeydown="getCommand();"> 
+	<h3>PS:按方向键控制坦克的方向，按D键发射子弹</h3>
+	<canvas id="canvas" width="400px" height="300px" style="background-color:black;">
+		你的浏览器不支持，请更换浏览器后重试！
+	</canvas>
+	<script src="game.js"></script>
+	<script>
+		var canvas = document.getElementById("canvas");
+		var cxt = canvas.getContext("2d");
+
+        var hero = new Hero(140,140,0,heroColor);
+        // 定义子弹数组
+        var heroBullets = new Array();
+        //定义敌人坦克
+        var enemyTanks = new Array();
+        //定义敌人子弹
+        var enemyBullets = new Array();
+        //定义炸弹
+        var bombs = new Array();
+        for(var i=0; i<3;i++){
+        	//创建一个坦克
+        	var enemyTank=new EnemyTank((i+1)*50,0,2,enemyColor);
+        	//把这个坦克放入数组
+        	enemyTanks[i] = enemyTank;
+        	window.setInterval("enemyTanks["+i+"].run()",50);
+
+        	//当创建敌人坦克时就分配子弹
+        	var eb = new Bullet(enemyTanks[i].x+9,enemyTanks[i].y+30,2,1.5,"enemy",enemyTanks[i]);
+        	enemyBullets[i]=eb;
+        	//启动该子弹
+		    var ettimer=window.setInterval("enemyBullets["+i+"].run()",50);
+        	enemyBullets[i].timer = ettimer;
+        }
+        //画布函数，在画布上画出坦克、子弹、炸弹等
+        function flashTankMap(){
+        	cxt.clearRect(0,0,400,300);
+            drawTank(hero);
+            drawHeroBullet();
+            isHitEnemyTank(); 
+            isHitHeroTank();
+            drawEnemyBullet();
+            drawBomb();
+            for(var i = 0;i < 3; i++){
+        	drawTank(enemyTanks[i]);
+            }
+        }
+
+        flashTankMap();
+
+        //键盘控制坦克方向，封装在getCommand函数中
+        function getCommand(){
+        	 var keycode = event.keyCode;   //获取键盘对应字母的ascii码值
+       		 switch(keycode){
+		            case 38:    
+		            hero.moveUp();
+		            break;
+		            case 39:
+		            hero.moveRight();   
+		            break;
+		            case 40:
+		            hero.moveBottom();   
+		            break;
+		            case 37:
+		            hero.moveLeft();   
+		            break;
+		            case 68:       
+		            hero.shotEnemy();
+		            break;
+        	}
+            flashTankMap();
+         }
+        //每隔100毫秒去刷新一次画布函数
+     window.setInterval("flashTankMap();",100);
+	</script>
+</body>
+</html>
