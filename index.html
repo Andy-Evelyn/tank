@@ -5,8 +5,10 @@
 	<title>坦克大战小游戏</title>
 </head>
 <body onkeydown="getCommand();"> 
-	<h3>PS:按方向键控制坦克的方向，按D键发射子弹</h3>
-	<canvas id="canvas" width="400px" height="300px" style="background-color:black;">
+	<h1>PS:<br/>
+    按方向键控制坦克的方向，按字母“ D ”键发射子弹
+    </h1>
+	<canvas id="canvas" width="400px" height="300px" style="background-color:black;"> 
 		你的浏览器不支持，请更换浏览器后重试！
 	</canvas>
 	<script src="game.js"></script>
@@ -50,9 +52,6 @@
         	drawTank(enemyTanks[i]);
             }
         }
-
-        flashTankMap();
-
         //键盘控制坦克方向，封装在getCommand函数中
         function getCommand(){
         	 var keycode = event.keyCode;   //获取键盘对应字母的ascii码值
@@ -73,10 +72,9 @@
 		            hero.shotEnemy();
 		            break;
         	}
-            flashTankMap();
          }
         //每隔100毫秒去刷新一次画布函数
-     window.setInterval("flashTankMap();",100);
+      var Timer = window.setInterval("flashTankMap();",100);
 	</script>
 </body>
 </html>

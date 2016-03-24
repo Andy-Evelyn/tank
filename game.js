@@ -14,7 +14,6 @@ function Tank(x,y,direct,color){
 	//上移
 	this.moveUp = function(){
 		this.y -= this.speed;
-
 		this.direct = 0;
 		}
 	//右移
@@ -38,6 +37,7 @@ function Hero(x,y,direct,color){
 		this.hero = Tank; 
 	    this.hero(x,y,direct,color);
 	    this.speed = 3;
+	    this.isLive = true;
 	    //增加一个射击敌人的函数
 	    this.shotEnemy=function(){
 	    	 //创建子弹,子弹的位置和方向都与hero有关
@@ -306,6 +306,9 @@ function isHitHeroTank(){
 					enemyBullets[i].isLive = false;
 					var bomb = new Bomb(hero.x,hero.y);
 					bombs.push(bomb);
+					clearInterval(Timer);
+					cxt.clearRect(0,0,400,300);
+				    window.setTimeout("gameover()",600);
 				}
 				break;
 				case 1:
@@ -315,6 +318,9 @@ function isHitHeroTank(){
 					enemyBullets[i].isLive = false;
 					var bomb = new Bomb(hero.x,hero.y);
 					bombs.push(bomb);
+					clearInterval(Timer);
+					cxt.clearRect(0,0,400,300);
+					window.setTimeout("gameover()",600);
 				}
 				break;
 			}
@@ -381,3 +387,11 @@ function drawBomb(){
 	}
 }
 
+function gameover(){
+	cxt.clearRect(0,0,400,300);
+	cxt.font = 'bold 50px consolas';  //文字的大小、及应用的字体
+    cxt.textAlign = 'left';
+    cxt.textBaseline = 'middle';   //文本相对于起点的位置
+    cxt.strokeStyle = '#DF5326';   //填充颜色
+    cxt.strokeText('GAME OVER!', 70, 150);
+}
